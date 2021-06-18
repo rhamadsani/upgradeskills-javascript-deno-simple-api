@@ -2,16 +2,13 @@ import client from "./config.ts";
 
 interface Saham {
     id? :number;
-    make: string;
-    model: string;
-    year: number;
-};
+    name: string;
+    company: string;
+}
 
 async function addSaham(saham: Saham){
-    // const newBook = de.queryBuilder().insert([book]).into("books").toString();
-    return  await client.execute(`INSERT INTO users(name) values(`+[saham]+`)`, [
-        "manyuanrong",
-      ]);
+    const query = `INSERT INTO saham('id', 'name', 'company') values(`+[saham]+`)`;
+    return  await client.execute(query);
 }
 
 async function getAllSahamModel(){
