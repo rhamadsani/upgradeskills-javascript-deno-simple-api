@@ -1,18 +1,17 @@
 import type { Context } from "https://deno.land/x/abc@v1.3.2/mod.ts";
 
 import {
-    getAllBooksModel,
-    getBookModel
-} from "../models/books.ts";
+    getAllSahamModel,
+    getSahamModel
+} from "../models/saham.ts";
 
-export const getAllBooks = async (ctx: Context) => {
-    // const data = await getAllBooksModel();
-    return ctx.json(await getAllBooksModel());
+export const getAllSahams = async (ctx: Context) => {
+    return ctx.json(await getAllSahamModel());
 }
 
 export const getBook = async (ctx: Context) => {
     const { id } = ctx.params;
-    return ctx.json(await getBookModel(parseInt(id)));
+    return ctx.json(await getSahamModel(parseInt(id)));
 
 }
 
