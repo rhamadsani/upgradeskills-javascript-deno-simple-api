@@ -27,8 +27,7 @@ export const addSaham = async (ctx: Context) => {
             'message': 'body required name & company'
         },422);
     }
-    body.throw new Error("");
-    
+    const 
     // const {name, company} = body;
     // console.log(name, company);
     const newSaham = await addSahamModel({name:'1', company:'1'});
