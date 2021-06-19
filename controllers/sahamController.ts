@@ -1,9 +1,12 @@
 import type { Context } from "https://deno.land/x/abc@v1.3.2/mod.ts";
-
+// import { sahamRequet } from "../requestHandler/request.ts";
 import {
     getAllSahamModel,
     getSahamModel,
     addSahamModel,
+    updateSahamModel,
+    deleteSahamModel,
+    Saham,
 } from "../models/saham.ts";
 
 export const getAllSahams = async (ctx: Context) => {
@@ -17,24 +20,45 @@ export const getSaham = async (ctx: Context) => {
 }
 
 export const addSaham = async (ctx: Context) => {
-    const body  = await ctx.body;
-    const body2 = ctx.body;
 
-    console.log(body,body2)
-    if(!body){
+    const {name, company}  = await ctx.body as Saham;
+    if(!name || !company){
+        return ctx.json({
+            'status': 'error', 
+            'message': 'body required key name & company'
+        },422);
+    }
+
+    if(name == '' && company == ''){
         return ctx.json({
             'status': 'error', 
             'message': 'body required name & company'
         },422);
     }
-    const 
-    // const {name, company} = body;
-    // console.log(name, company);
-    const newSaham = await addSahamModel({name:'1', company:'1'});
 
-    return ctx.json(newSaham)
+    return ctx.json(await addSahamModel({name, company}))
 }
 
-// export const delete_book = (ctx: Context) => {
-    
-// }
+export const updateSaham = async (ctx: Context) => {
+    const { id } = ctx.params;
+    const { name, company } = await ctx.body as Saham;
+    if(!name || !company){
+        return ctx.json({
+            'status': 'error', 
+            'message': 'body required key name & company'
+        },422);
+    }
+    if(name == '' && company == ''){
+        return ctx.json({
+            'status': 'error', 
+            'message': 'body required value name & company'
+        },422);
+    }
+    return ctx.json(await updateSahamModel(parseInt(id), {name, company}));
+}
+
+export const deleteSaham = async (ctx: Context) => {
+    const { id } = ctx.params;
+
+    return ctx.json(await deleteSahamModel(parseInt(id)));
+}
