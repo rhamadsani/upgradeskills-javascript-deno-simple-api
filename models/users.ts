@@ -1,16 +1,19 @@
 import client from "./config.ts";
 
-interface User {
-    id?: number;
+export interface User {
     name: string;
     email: string;
     password: string;
 }
 
 async function addUserModel(user: User){
-    const newUser = `INSERT INTO saham('id', 'name', 'email', 'password') values(`+[saham]+`)`;
+    const newUser = "INSERT INTO users(name, email, password) values(?,?,?)";
 
-    return await client.execute(newUser);
+    return await client.execute(newUser,[
+        user.name,
+        user.email, 
+        user.password
+    ]);
 }
 
 async function getUsers() {

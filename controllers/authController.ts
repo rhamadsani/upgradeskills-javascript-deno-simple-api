@@ -1,4 +1,6 @@
 import type { Context } from "https://deno.land/x/abc@v1.3.2/mod.ts";
+import * as bcrypt from "https://deno.land/x/bcrypt@v0.2.4/mod.ts";
+import { addUserModel, User } from "../models/users.ts";
 
 export const login = async (ctx: Context) => {
     interface login {
@@ -18,6 +20,20 @@ export const login = async (ctx: Context) => {
     return ctx.customContext
 }
 
-export const register = (ctx: Context) => {
-    
+export const register = async (ctx: Context) => {
+    let {name, email, password } = await ctx.body as User;
+    if(!name || !email || !password){
+        return ctx.json({
+            'status': 'error',
+            'message' : 'body required key name, email & password'
+        }, 422);
+    }
+    if(name == '' || email == '' || password == ''){
+        return ctx.json({
+            'status': 'error',
+            'message' : 'body required value name, email & password'
+        }, 422);
+    }
+    password = await bcrypt.hash(password);
+    return ctx.json(addUserModel({name, email, password}));
 }
