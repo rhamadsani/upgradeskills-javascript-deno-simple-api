@@ -1,5 +1,5 @@
 import { Application, Context } from "https://deno.land/x/abc@v1.3.2/mod.ts";
-import { getAllSahams , getBook} from './controllers/sahamController.ts';
+import { getAllSahams , getSaham, addSaham} from './controllers/sahamController.ts';
 import { login , register} from  './controllers/authController.ts';
 // import { authorize } from './middleware/authorize.ts';
 const app = new Application();
@@ -14,6 +14,7 @@ app.get('/', async(_ctx: Context) => {
 });
 app.post('/login', login)
     .get('/saham', getAllSahams)
-    .get('/saham/:id', getBook);
+    .post('/saham', addSaham)
+    .get('/saham/:id', getSaham);
 
 app.start({port:3000});

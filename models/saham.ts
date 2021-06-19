@@ -1,16 +1,17 @@
 import client from "./config.ts";
 
 interface Saham {
-    id? :number;
+    // id? :number;
     name: string;
     company: string;
 }
 
-async function addSaham(saham: Saham){
-    const query = `INSERT INTO saham('id', 'name', 'company') values(`+[saham]+`)`;
-    return  await client.execute(query);
+async function addSahamModel(saham: Saham){
+    return  await client.execute("insert into saham(name,company) values(?,?)", [
+        saham.name,
+        saham.company,
+      ]);
 }
-
 async function getAllSahamModel(){
     return await client.query(`select * from saham`);
 }
@@ -18,8 +19,9 @@ async function getAllSahamModel(){
 async function getSahamModel(id:number) {
     return await client.query(`select * from saham where id=`+id);
 }
+
 export {
-    addSaham, 
+    addSahamModel, 
     getAllSahamModel,
     getSahamModel
 }
