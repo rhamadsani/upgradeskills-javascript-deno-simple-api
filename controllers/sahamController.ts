@@ -1,8 +1,6 @@
 import type { Context } from "https://deno.land/x/abc@v1.3.2/mod.ts";
-// import { sahamRequet } from "../requestHandler/request.ts";
 import {
     getAllSahamModel,
-    getSahamModel,
     addSahamModel,
     updateSahamModel,
     deleteSahamModel,
@@ -15,8 +13,11 @@ export const getAllSahams = async (ctx: Context) => {
 
 export const getSaham = async (ctx: Context) => {
     const { id } = ctx.params;
-    return ctx.json(await getSahamModel(parseInt(id)));
+    const { length } = ctx.queryParams;
 
+    const response = await fetch("https://idx.co.id/umbraco/Surface/ListedCompany/GetTradingInfoSS?code="+id+"&length="+length);
+
+    return ctx.json(await response.json());
 }
 
 export const addSaham = async (ctx: Context) => {
